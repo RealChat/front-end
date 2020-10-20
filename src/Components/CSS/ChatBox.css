@@ -1,0 +1,114 @@
+.chatbox{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 0vw;
+    width: 60vw;
+    height:100vh;
+}
+
+header{
+    flex:1;
+    border: 1px solid;
+    background-color: #003366;
+}
+
+.sections{
+    flex: 8;
+    border: 1px solid;
+    padding:10px;
+    background: rgb(238, 236, 236);
+}
+
+footer{
+    flex:1;
+    display:flex;
+    border: 1px solid;
+    background: #003366;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#text-container{
+    flex:4;
+    height: 60%;
+    display:flex;
+    margin:2px 20px;
+    justify-content: center;
+ 
+
+}
+#text-container input[type*="text"]{
+    flex:4;
+    padding: 2px;
+    font-size: 120%;
+    font-family: 'Comic Sans MS';
+    margin: 0px;
+    border-radius: 0px 0px 5px 5px;
+
+}
+#text-container button{
+    flex:1;
+    font-family: 'Comic Sans MS';
+    border-radius: 0px 0px 5px 5px;
+    font-size: 120%;
+    color: gray;
+
+}
+#icon{
+    flex:1;
+}
+
+/*#search{
+    padding:10px;
+    border:none;
+    flex:1;
+    outline: none;
+    font-family: Comic Sans MS;
+    font-weight: bold;
+    font-size: 125%;
+}
+
+#search-container{
+    display: flex;
+    margin:30px 1px;
+    justify-content: center;
+}
+
+#search-container > div{
+    width: 40%;
+    align-items: center;
+    display: flex;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+}
+
+#search-container > div > input{
+    border-left: 1px solid lightgrey;
+    padding:10px;
+}
+
+#search-container > div > div{
+    padding:10px 20px;
+    font: bold;
+}
+*/
+
+.message{
+    padding:10px 20px;
+    min-width: 10%;
+    max-width: 70%;
+    background:rgb(37, 55, 87);
+    color:black;
+    border-radius: 20px;
+    margin:20px 0;
+}
+
+.message_receiver{
+    background: #ffffff;
+    align-self: flex-start;
+}
+.message_sender{
+    align-self: flex-end;
+    color:white;
+}

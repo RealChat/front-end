@@ -1,0 +1,30 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 60vw;
+    width: 30vw;
+    height:100vh;
+    background:#ecf1f1
+}
+
+.search{
+    flex:1;
+    border: 1px solid;
+}
+
+.friends{
+    flex:9;
+    border: 1px solid;
+}
+.contact{
+    padding:10px;
+    cursor:pointer;
+}
+.contact:hover{
+    background-color: #00000040;
+}
+
+.active_contact{
+    background:#dfdfdf;
+}
