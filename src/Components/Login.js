@@ -2,7 +2,7 @@ import React, { Component, useContext, useState } from 'react'
 import './CSS/login.css'
 import Context from "../Context"
 import client from '../api/client';
-import { useHistory, Redirect } from 'react-router-dom';
+import { useHistory, Redirect, Link } from "react-router-dom";
 
 function Login(){
     const {setUser,user} = useContext(Context);
@@ -20,7 +20,7 @@ function Login(){
         .then(e=>e.json())
         .then(res=>{
             if(res.error){
-                setError(error)
+                setError(res.error);
             }
             else{
                 // setError(JSON.stringify(res))
@@ -37,17 +37,26 @@ function Login(){
 
     return (
         <div className="login">
-
             <form onSubmit={handleSubmit}>
-            <h1>Login</h1>
-            <p style={{color:"red"}}>{error}</p>
-                <input onChange={e=>setEmail(e.target.value)} type="email" placeholder="email"/><br/>
-                <input onChange={e=>setPassword(e.target.value)} type="password"  placeholder="password"/>
-                <input type="submit" value="login"/>
-                <p>If not registered then <span>signup</span></p>
+                <h1>Login</h1>
+                <p style={{ color: "red" }}>{error}</p>
+                <input
+                    onChange={(e) => setEmail(e.target.value)}
+                    type="email"
+                    placeholder="Email"
+                />
+                <input
+                    onChange={(e) => setPassword(e.target.value)}
+                    type="password"
+                    placeholder="Password"
+                />
+                <input type="submit" value="login" />
+                <p>
+                    If not registered then <Link to="/signup">Signup</Link>
+                </p>
             </form>
         </div>
-    )
+    );
 }
 
 Login.contextType = Context;

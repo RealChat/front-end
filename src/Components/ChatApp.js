@@ -7,18 +7,7 @@ import { Redirect } from 'react-router-dom'
 import client from '../api/client'
 
 function ChatApp(){
-    const {user,setContacts,setCurrentContact} = useContext(Context);
-    React.useEffect(()=>{
-        client.get('/auth/users')
-        .then(res=>{
-            console.log(res)
-            setCurrentContact(res[0]._id);
-            setContacts(res.map(contact=>({
-                ...contact,
-                uid:contact._id,
-            })));
-        })
-    },[])
+    const { user, setContacts, setCurrentContact } = useContext(Context);
     if(!user){
         return <Redirect to='/login' />
     }

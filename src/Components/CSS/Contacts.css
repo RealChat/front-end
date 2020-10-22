@@ -20,6 +20,8 @@
 .contact{
     padding:10px;
     cursor:pointer;
+    display: flex;
+    justify-content: space-between;
 }
 .contact:hover{
     background-color: #00000040;
@@ -27,4 +29,15 @@
 
 .active_contact{
     background:#dfdfdf;
+}
+
+.badge{
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #253757;
+    color: white;
 }
