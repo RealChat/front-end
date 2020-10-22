@@ -2,26 +2,57 @@ import React, { useContext, useState } from "react";
 import "./CSS/ChatBox.css";
 import { Context } from "../Context";
 import socket from "../SocketClient";
+import { useEffect } from "react";
+import SocketClient from "../SocketClient";
+import sounds from "../helpers/sound";
 
 function ChatBox() {
     const { user } = useContext(Context);
-    const [text, changeText] = useState("");
-    const { contacts, messages, currentContact, setMessages } = useContext(Context);
-    const CONTACT = contacts.find((user) => user.uid == currentContact) || {};
-    const MESSAGES = messages[currentContact] || []
+    const { contacts, messages, currentContact, setMessages } = useContext(
+        Context
+    );
+    const CONTACT = contacts.find((user) => user.uid === currentContact) || {};
+    const MESSAGES = messages[currentContact] || [];
+    const text = document.getElementById("textarea");
 
-    function send() {
-        socket.emit("message", { text });
-        changeText("");
-        setMessages(prev=>{
-            if(!prev[currentContact]){
-                prev[currentContact] = []
+    useEffect(() => {
+        setMessages((prev) => {
+            if (!prev[currentContact]) {
+                prev[currentContact] = [];
             }
             return {
-                ...prev, 
-                [currentContact] : [...prev[currentContact], {text, user:true}]
+                ...prev,
+                [currentContact]: [...prev[currentContact]].map((e) => ({
+                    ...e,
+                    unread: undefined,
+                })),
+            };
+        });
+    }, [currentContact]);
+
+
+    function send() {
+        let message = text.innerText;
+        message = message.replace(/\n/g, '<br>').trim();
+        console.log(message);
+        if (message.trim() == "") {
+            return;
+        }
+        socket.emit("message", { text: message, to: currentContact });
+        sounds.MESSAGE_SENT.play();
+        text.innerText = "";
+        setMessages((prev) => {
+            if (!prev[currentContact]) {
+                prev[currentContact] = [];
             }
-        })
+            return {
+                ...prev,
+                [currentContact]: [
+                    ...prev[currentContact],
+                    { text:  message, user: true },
+                ],
+            };
+        });
     }
     return (
         <div className="chatbox">
@@ -43,8 +74,8 @@ function ChatBox() {
                                         ? "message_sender"
                                         : "message_receiver"
                                 } message`}
+                                dangerouslySetInnerHTML={{__html:message.text}}
                             >
-                                {message.text}
                             </div>
                             {/* {
                                     message.user && <div className="message message_sender">{message.text}</div>
@@ -64,15 +95,13 @@ function ChatBox() {
                     </div>
                 </div> */}
                 <div id="text-container">
-                    <input
-                        value={text}
-                        onChange={(e) => changeText(e.target.value)}
-                        type="text"
+                    <p
+                        id="textarea"
                         placeholder="Type a message.."
-                    />
+                        contentEditable={true}
+                    ></p>
                     <button onClick={send}>send</button>
                 </div>
-                <div id="icon">icon</div>
             </footer>
         </div>
     );

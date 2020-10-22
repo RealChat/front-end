@@ -1,13 +1,17 @@
-import React,{createContext,useState} from "react"
+import React, { createContext } from "react";
+import { useState } from "reinspect";
 import App from "./App";
 
 export const Context = createContext()
 
 export function AppProvider({children}){
-    const [user, setUser] = useState(null);
-    const [currentContact, setCurrentContact] = useState(1235);
-    const [contacts, setContacts] = useState([]);
-    const [messages, setMessages] = useState({});
+    const [user, setUser] = React.useState(null);
+    const [contacts, setContacts] = useState([], "contacts");
+    const [messages, setMessages] = useState({}, "messages");
+    const [currentContact, setCurrentContact] = useState(
+        null,
+        "currentContact"
+    );
 
     return (
         <Context.Provider value={{

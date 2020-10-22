@@ -3,7 +3,7 @@ class SocketClient{
         // let scr = document.createElement("script");
         // scr.src = "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js"
         // document.body.appendChild(scr);
-        this.socket = window.io("http://localhost:9008");
+        this.socket = window.io("/");
         this.socket.on("connect",e=>{
             this.onConnect();
             this.onMessage();

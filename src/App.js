@@ -12,9 +12,18 @@ import ChatApp from "./Components/ChatApp";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import SocketClient from "./SocketClient";
 import Context from "./Context";
+import sound from "./helpers/sound";
+import sounds from "./helpers/sound";
 
 export function App() {
-    const { setUser, user, setContacts, setMessages } = useContext(Context);
+    const {
+        setUser,
+        user,
+        setContacts,
+        setMessages,
+        currentContact,
+        setCurrentContact,
+    } = useContext(Context);
     useEffect(() => {
         let u = localStorage.getItem("user");
         if (u) {
@@ -24,10 +33,11 @@ export function App() {
         }
         SocketClient.on("allUsers", (users) => {
             let allUsers = users.map((user) => ({ ...user, uid: user._id }));
-            allUsers = allUsers.filter((us) => us.uid !== u._id);
             setContacts(allUsers);
+            setCurrentContact(allUsers[0].uid);
         });
         SocketClient.on("receiveMessage", (data) => {
+            sounds.NEW_MESSAGE.play();
             let from = data.from;
             console.log(data);
             setMessages((prev) => {
@@ -36,7 +46,7 @@ export function App() {
                 }
                 return {
                     ...prev,
-                    [from]: [...prev[from], { text: data.text }],
+                    [from]: [...prev[from], { text: data.text, unread: true }],
                 };
             });
         });
@@ -49,22 +59,6 @@ export function App() {
     return (
         <Router>
             <div>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/login">login</Link>
-                        </li>
-                        <li>
-                            <Link to="/signup">Signup</Link>
-                        </li>
-                        <li>
-                            <Link to="/profile">Profile</Link>
-                        </li>
-                    </ul>
-                </nav>
                 <Switch>
                     <Route exact path="/">
                         <ChatApp />
