@@ -14,8 +14,9 @@ function Contacts() {
         <div class="container">
             <div className="search"></div>
             <div className="friends">
-                {contacts.length == 0 && <div>Loading contacts...</div>}
-                {contacts.map((user) => {
+                {!contacts && <div>Loading contacts...</div>}
+                {contacts?.length == 0 && <div>No contacts to show.</div>}
+                {contacts?.map((user) => {
                     const MESSAGES = messages[user.uid] || [];
                     const unreadMessages = MESSAGES.filter((m) => m.unread)
                         .length;
@@ -28,8 +29,9 @@ function Contacts() {
                             } contact`}
                             onClick={(e) => setCurrentContact(user.uid)}
                         >
-                            <div className="contact_name">{user.name}
-                            {user.online && <div className="online"></div> }
+                            <div className="contact_name">
+                                {user.username}
+                                {user.online && <div className="online"></div>}
                             </div>
                             {unreadMessages > 0 &&
                                 user.uid !== currentContact && (

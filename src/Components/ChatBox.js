@@ -11,7 +11,7 @@ function ChatBox() {
     const { contacts, messages, currentContact, setMessages } = useContext(
         Context
     );
-    const CONTACT = contacts.find((user) => user.uid === currentContact) || {};
+    const CONTACT = contacts?.find((user) => user.uid === currentContact) || {};
     const MESSAGES = messages[currentContact] || [];
     const text = document.getElementById("textarea");
 
@@ -57,7 +57,7 @@ function ChatBox() {
     return (
         <div className="chatbox">
             <header>
-                <h1 style={{ marginLeft: 10 }}>{CONTACT.name}</h1>
+                <h1 style={{ marginLeft: 10 }}>{CONTACT.username}</h1>
             </header>
             <div className="sections">
                 {MESSAGES.map((message) => {
@@ -74,9 +74,10 @@ function ChatBox() {
                                         ? "message_sender"
                                         : "message_receiver"
                                 } message`}
-                                dangerouslySetInnerHTML={{__html:message.text}}
-                            >
-                            </div>
+                                dangerouslySetInnerHTML={{
+                                    __html: message.text,
+                                }}
+                            ></div>
                             {/* {
                                     message.user && <div className="message message_sender">{message.text}</div>
                                 }

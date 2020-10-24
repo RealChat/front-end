@@ -6,7 +6,7 @@ export const Context = createContext()
 
 export function AppProvider({children}){
     const [user, setUser] = React.useState(null);
-    const [contacts, setContacts] = useState([], "contacts");
+    const [contacts, setContacts] = useState(null, "contacts");
     const [messages, setMessages] = useState({}, "messages");
     const [currentContact, setCurrentContact] = useState(
         null,

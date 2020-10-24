@@ -32,9 +32,27 @@ export function App() {
             setUser(u);
         }
         SocketClient.on("allUsers", (users) => {
+            if(users.length==0){
+                setContacts([])
+                return;
+            }
             let allUsers = users.map((user) => ({ ...user, uid: user._id }));
             setContacts(allUsers);
             setCurrentContact(allUsers[0].uid);
+        });
+        SocketClient.on("newUser", (userId) => {
+            setContacts((users) =>
+                users.map((e) => {
+                    return e.uid === userId ? { ...e, online: true } : e;
+                })
+            );
+        });
+        SocketClient.on("userLeft", (userId) => {
+            setContacts((users) =>
+                users.map((e) => {
+                    return e.uid === userId ? { ...e, online: false } : e;
+                })
+            );
         });
         SocketClient.on("receiveMessage", (data) => {
             sounds.NEW_MESSAGE.play();
