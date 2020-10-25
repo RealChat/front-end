@@ -5,6 +5,7 @@ import socket from "../SocketClient";
 import { useEffect } from "react";
 import SocketClient from "../SocketClient";
 import sounds from "../helpers/sound";
+import { BsArrowDownShort } from "react-icons/bs";
 
 function ChatBox() {
     const { user } = useContext(Context);
@@ -14,6 +15,14 @@ function ChatBox() {
     const CONTACT = contacts?.find((user) => user.uid === currentContact) || {};
     const MESSAGES = messages[currentContact] || [];
     const text = document.getElementById("textarea");
+    const messageRef = React.useRef();
+
+    const scrollToBottom = () => {
+        messageRef.current.scrollTo({
+            top: messageRef.current.scrollHeight,
+            behavior: "smooth",
+        });
+    };
 
     useEffect(() => {
         setMessages((prev) => {
@@ -30,12 +39,17 @@ function ChatBox() {
         });
     }, [currentContact]);
 
+    useEffect(() => {
+        if (MESSAGES[MESSAGES.length - 1]?.user) {
+            scrollToBottom();
+        }
+    }, [messages]);
 
     function send() {
         let message = text.innerText;
-        message = message.replace(/\n/g, '<br>').trim();
+        message = message.replace(/\n/g, "<br>").trim();
         console.log(message);
-        if (message.trim() == "") {
+        if (message.trim() === "") {
             return;
         }
         socket.emit("message", { text: message, to: currentContact });
@@ -49,7 +63,7 @@ function ChatBox() {
                 ...prev,
                 [currentContact]: [
                     ...prev[currentContact],
-                    { text:  message, user: true },
+                    { text: message, user: true },
                 ],
             };
         });
@@ -59,7 +73,7 @@ function ChatBox() {
             <header>
                 <h1 style={{ marginLeft: 10 }}>{CONTACT.username}</h1>
             </header>
-            <div className="sections">
+            <div className="sections" ref={messageRef}>
                 {MESSAGES.map((message) => {
                     return (
                         <div
@@ -68,9 +82,20 @@ function ChatBox() {
                                 flexDirection: "column",
                             }}
                         >
+                            {message.sender && message.sender !== user.username && (
+                                <span
+                                    style={{
+                                        margin: "0 0 -10px 10px",
+                                        color: "grey",
+                                        fontSize: "90%"
+                                    }}
+                                >
+                                    {message.sender}
+                                </span>
+                            )}
                             <div
                                 className={`${
-                                    message.user
+                                    message.user || message.sender === user.username
                                         ? "message_sender"
                                         : "message_receiver"
                                 } message`}
@@ -89,6 +114,9 @@ function ChatBox() {
                 })}
             </div>
             <footer>
+                    <div className="scroll-top" onClick={scrollToBottom}>
+                    <BsArrowDownShort size={34} color="white" />
+                </div>
                 {/* <div id="search-container">
                     <div>
                         <div class="material-icons icon">search</div>

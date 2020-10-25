@@ -10,13 +10,29 @@ function Contacts() {
         currentContact,
         messages,
     } = useContext(Context);
+    const [contactsF, setContactsF] = useState(contacts);
+    useEffect(() => {
+        setContactsF(contacts);
+    }, [contacts]);
+    const filterContacts = (e) => {
+        const text = e.target.value.toLowerCase();
+        setContactsF(
+            contacts.filter((u) => u.username.toLowerCase().startsWith(text))
+        );
+    };
     return (
         <div class="container">
-            <div className="search"></div>
+            <div className="search">
+                <input
+                    type="search"
+                    placeholder="Search contact"
+                    onChange={filterContacts}
+                />
+            </div>
             <div className="friends">
                 {!contacts && <div>Loading contacts...</div>}
-                {contacts?.length == 0 && <div>No contacts to show.</div>}
-                {contacts?.map((user) => {
+                {contactsF?.length == 0 && <div>No contacts to show.</div>}
+                {contactsF?.map((user) => {
                     const MESSAGES = messages[user.uid] || [];
                     const unreadMessages = MESSAGES.filter((m) => m.unread)
                         .length;

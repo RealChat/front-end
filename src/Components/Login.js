@@ -14,21 +14,21 @@ function Login(){
     const handleSubmit = (e)=>{
         e.preventDefault()
         
-        client.post("/auth/login",{
-            email,password
-        })
-        .then(e=>e.json())
-        .then(res=>{
-            if(res.error){
-                setError(res.error);
-            }
-            else{
-                // setError(JSON.stringify(res))
-                setUser(res.user);
-                history.push("/")
-                localStorage.setItem("user",JSON.stringify(res.user));
-            }
-        })
+        client
+            .post("/auth/login", {
+                email,
+                password,
+            })
+            .then((res) => {
+                if (res.error) {
+                    setError(res.error);
+                } else {
+                    // setError(JSON.stringify(res))
+                    setUser(res.user);
+                    history.push("/");
+                    localStorage.setItem("user", JSON.stringify(res.user));
+                }
+            });
     }
 
     if(user){

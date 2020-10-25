@@ -1,26 +1,21 @@
-class SocketClient{
-    constructor(){
-        // let scr = document.createElement("script");
-        // scr.src = "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js"
-        // document.body.appendChild(scr);
+class SocketClient {
+    constructor() {
         this.socket = window.io("/");
-        this.socket.on("connect",e=>{
+        this.socket.on("connect", (e) => {
             this.onConnect();
             this.onMessage();
-        })
-        // scr.onload = ()=>{
-        // }
+        });
     }
-    onConnect(){
+    onConnect() {
         // alert("Connected to backend");
     }
-    onMessage(){
-        this.socket.on("sentMessage",(data)=>{
-            console.log("RECEIVED",data);
-        })
+    onMessage() {
+        this.socket.on("sentMessage", (data) => {
+            console.log("RECEIVED", data);
+        });
     }
-    sendMessage(message){
-        this.socket.emit("message",{text:message})
+    sendMessage(message) {
+        this.socket.emit("message", { text: message });
     }
 }
 

@@ -9,16 +9,23 @@
 
 header {
     flex: 1;
-    border: 1px solid;
     background-color: #003366;
 }
 
 .sections {
     flex: 8;
-    border: 1px solid;
     padding: 10px;
     background: rgb(238, 236, 236);
     overflow: auto;
+    position: relative;
+}
+
+.sections::-webkit-scrollbar{
+    width: 5px;
+}
+.sections::-webkit-scrollbar-thumb{
+    width: 5px;
+    background-color: grey;
 }
 
 footer {
@@ -27,6 +34,7 @@ footer {
     background: #003366;
     flex-wrap: wrap;
     align-items: center;
+    position: relative;
 }
 
 #text-container {
@@ -130,4 +138,21 @@ footer {
 
 .chatbox h1{
     color:white
+}
+
+.scroll-top{
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    padding: 10px;
+    background-color: #00000080;
+    color: black;
+    border-radius: 50%;
+    height: 25px;
+    width: 25px;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }

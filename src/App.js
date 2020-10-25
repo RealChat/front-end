@@ -22,6 +22,7 @@ export function App() {
         setContacts,
         setMessages,
         currentContact,
+        contacts,
         setCurrentContact,
     } = useContext(Context);
     useEffect(() => {
@@ -32,39 +33,65 @@ export function App() {
             setUser(u);
         }
         SocketClient.on("allUsers", (users) => {
-            if(users.length==0){
-                setContacts([])
+            if (users.length == 0) {
+                setContacts([]);
                 return;
             }
             let allUsers = users.map((user) => ({ ...user, uid: user._id }));
-            setContacts(allUsers);
+            const group = { uid: "groupChat", username: "Mega Chat" };
+            setContacts([...allUsers, group]);
             setCurrentContact(allUsers[0].uid);
         });
         SocketClient.on("newUser", (userId) => {
             setContacts((users) =>
-                users.map((e) => {
+                users?.map((e) => {
                     return e.uid === userId ? { ...e, online: true } : e;
                 })
             );
         });
         SocketClient.on("userLeft", (userId) => {
             setContacts((users) =>
-                users.map((e) => {
+                users?.map((e) => {
                     return e.uid === userId ? { ...e, online: false } : e;
                 })
             );
         });
+
+        SocketClient.on("groupChats", (data) => {
+            setMessages((prev) => {
+                if (!prev.groupChat) {
+                    prev.groupChat = [];
+                }
+                return {
+                    ...prev,
+                    groupChat: data.map((e) => ({ ...e, sender: e.from })),
+                };
+            });
+        });
+
         SocketClient.on("receiveMessage", (data) => {
             sounds.NEW_MESSAGE.play();
             let from = data.from;
             console.log(data);
+            if (data.sender) {
+                from = "groupChat";
+                console.log(contacts);
+            }
             setMessages((prev) => {
                 if (!prev[from]) {
                     prev[from] = [];
                 }
                 return {
                     ...prev,
-                    [from]: [...prev[from], { text: data.text, unread: true }],
+                    [from]: [
+                        ...prev[from],
+                        {
+                            text: data.text,
+                            unread: true,
+                            sender:
+                                from === "groupChat" ? data.sender : undefined,
+                        },
+                    ],
                 };
             });
         });

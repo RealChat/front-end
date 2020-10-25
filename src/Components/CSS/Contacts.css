@@ -5,18 +5,35 @@
     right: 60vw;
     width: 30vw;
     height:100vh;
-    background:#ecf1f1
+    background:#f0f8ff;
 }
 
 .search{
     flex:1;
     border: 1px solid;
 }
+.search > *{
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    border:none;
+    border-radius: 0px;
+}
 
 .friends{
     flex:9;
-    border: 1px solid;
+    overflow-y: auto;
 }
+
+.friends::-webkit-scrollbar{
+    width: 5px;
+}
+.friends::-webkit-scrollbar-thumb{
+    width: 5px;
+    background-color: grey;
+}
+
+
 .contact{
     padding:10px;
     cursor:pointer;
