@@ -19,6 +19,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy1": "http://localhost:9008",
   "proxy": "https://int222-chat.herokuapp.com",
   "eslintConfig": {
     "extends": "react-app"

@@ -52,7 +52,7 @@ function Signup() {
                 />
                 <input
                     onChange={(e) => setEmail(e.target.value)}
-                    type="email"
+                    type="text"
                     name="email"
                     placeholder="email"
                 />

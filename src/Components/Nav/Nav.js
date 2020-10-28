@@ -12,10 +12,10 @@ function Nav() {
     const { setUser } = useContext(Context);
     return (
         <div className="Nav">
-            <Link to="/">
+            <Link to="/" className="nav-link">
                 <Tab label="Home" icon={FaHome} size={32} />
             </Link>
-            <Link to="/profile">
+            <Link to="/profile" className="nav-link">
                 <Tab label="Profile" icon={FaUserAlt} size={32} />
             </Link>
             <Tab
